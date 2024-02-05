@@ -14,7 +14,7 @@ class TodoController {
         .limitFields()
         .paginate();
 
-      const todos = await Todo.find();
+      const todos = await features.query;
 
       res.status(200).json({
         status: "success",
@@ -50,7 +50,7 @@ class TodoController {
     }
   }
 
-  @get("/todos")
+  @get("/todos/:id")
   async getTodo(req: Request, res: Response): Promise<void> {
     try {
       const todo = await Todo.findById(req.params.id);
@@ -69,7 +69,7 @@ class TodoController {
     }
   }
 
-  @patch("/todos")
+  @patch("/todos/:id")
   async updateTodo(req: Request, res: Response): Promise<void> {
     try {
       const updateData = req.body;
@@ -93,7 +93,7 @@ class TodoController {
     }
   }
 
-  @del("/todos")
+  @del("/todos/:id")
   async deleteTodo(req: Request, res: Response): Promise<void> {
     try {
       await Todo.findByIdAndDelete(req.params.id);
