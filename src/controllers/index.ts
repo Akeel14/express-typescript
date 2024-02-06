@@ -1,2 +1,2 @@
-export * from "./TodoController";
-export * from "./RootController";
+export * from './TodoController'
+export * from './RootController'

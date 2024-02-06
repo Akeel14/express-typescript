@@ -1,203 +1,203 @@
 {
-  "openapi": "3.0.0",
-  "info": {
-    "title": "REST API Docs",
-    "version": "1.0.0"
-  },
-  "paths": {
-    "/api/v1/todos": {
-      "get": {
-        "tags": ["Todos"],
-        "summary": "Get a list of all todos with options for sorting, filtering, and pagination",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "sort",
-            "schema": {
-              "type": "string"
-            },
-            "description": "Sort the results by the specified fields (comma-separated)."
-          },
-          {
-            "in": "query",
-            "name": "fields",
-            "schema": {
-              "type": "string"
-            },
-            "description": "Select only specified fields of the todo (comma-separated)."
-          },
-          {
-            "in": "query",
-            "name": "page",
-            "schema": {
-              "type": "integer"
-            },
-            "description": "Page number for pagination."
-          },
-          {
-            "in": "query",
-            "name": "limit",
-            "schema": {
-              "type": "integer"
-            },
-            "description": "Limit the number of results per page."
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "A list of todos",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Todo"
-                  }
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Error in fetching todos"
-          }
-        }
-      },
-      "post": {
-        "tags": ["Todos"],
-        "summary": "Create a new todo",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "title": {
-                    "type": "string"
-                  },
-                  "completed": {
-                    "type": "boolean"
-                  }
-                },
-                "required": ["title", "completed"]
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "Todo created successfully"
-          },
-          "400": {
-            "description": "Invalid data sent"
-          }
-        }
-      }
+    "openapi": "3.0.0",
+    "info": {
+        "title": "REST API Docs",
+        "version": "1.0.0"
     },
-    "/api/v1/todos/{id}": {
-      "get": {
-        "tags": ["Todos"],
-        "summary": "Get a todo by its ID",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "description": "Unique ID of the todo"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Todo data retrieved successfully"
-          },
-          "404": {
-            "description": "Todo not found"
-          }
-        }
-      },
-      "patch": {
-        "tags": ["Todos"],
-        "summary": "Update a todo by its ID",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "description": "Unique ID of the todo to update"
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "title": {
-                    "type": "string"
-                  },
-                  "completed": {
-                    "type": "boolean"
-                  }
+    "paths": {
+        "/api/v1/todos": {
+            "get": {
+                "tags": ["Todos"],
+                "summary": "Get a list of all todos with options for sorting, filtering, and pagination",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "sort",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Sort the results by the specified fields (comma-separated)."
+                    },
+                    {
+                        "in": "query",
+                        "name": "fields",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Select only specified fields of the todo (comma-separated)."
+                    },
+                    {
+                        "in": "query",
+                        "name": "page",
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "Page number for pagination."
+                    },
+                    {
+                        "in": "query",
+                        "name": "limit",
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "Limit the number of results per page."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A list of todos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Todo"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Error in fetching todos"
+                    }
                 }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Todo updated successfully"
-          },
-          "404": {
-            "description": "Todo not found"
-          }
-        }
-      },
-      "delete": {
-        "tags": ["Todos"],
-        "summary": "Delete a todo by its ID",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "schema": {
-              "type": "string"
             },
-            "description": "Unique ID of the todo to delete"
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "Todo deleted successfully"
-          },
-          "404": {
-            "description": "Todo not found"
-          }
+            "post": {
+                "tags": ["Todos"],
+                "summary": "Create a new todo",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "title": {
+                                        "type": "string"
+                                    },
+                                    "completed": {
+                                        "type": "boolean"
+                                    }
+                                },
+                                "required": ["title", "completed"]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Todo created successfully"
+                    },
+                    "400": {
+                        "description": "Invalid data sent"
+                    }
+                }
+            }
+        },
+        "/api/v1/todos/{id}": {
+            "get": {
+                "tags": ["Todos"],
+                "summary": "Get a todo by its ID",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique ID of the todo"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Todo data retrieved successfully"
+                    },
+                    "404": {
+                        "description": "Todo not found"
+                    }
+                }
+            },
+            "patch": {
+                "tags": ["Todos"],
+                "summary": "Update a todo by its ID",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique ID of the todo to update"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "title": {
+                                        "type": "string"
+                                    },
+                                    "completed": {
+                                        "type": "boolean"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Todo updated successfully"
+                    },
+                    "404": {
+                        "description": "Todo not found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": ["Todos"],
+                "summary": "Delete a todo by its ID",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Unique ID of the todo to delete"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Todo deleted successfully"
+                    },
+                    "404": {
+                        "description": "Todo not found"
+                    }
+                }
+            }
         }
-      }
-    }
-  },
-  "components": {
-    "schemas": {
-      "Todo": {
-        "type": "object",
-        "required": ["title", "completed"],
-        "properties": {
-          "title": {
-            "type": "string"
-          },
-          "completed": {
-            "type": "boolean"
-          }
+    },
+    "components": {
+        "schemas": {
+            "Todo": {
+                "type": "object",
+                "required": ["title", "completed"],
+                "properties": {
+                    "title": {
+                        "type": "string"
+                    },
+                    "completed": {
+                        "type": "boolean"
+                    }
+                }
+            }
         }
-      }
     }
-  }
 }
