@@ -7,13 +7,13 @@ dotenv.config()
 export const connectDatabase = (): void => {
     const { DATABASE, DATABASE_PASSWORD } = process.env
 
-    if (!DATABASE || !DATABASE_PASSWORD) {
+    if (DATABASE === undefined || DATABASE_PASSWORD === undefined) {
         throw new Error('DATABASE environment variable(s) not set')
     }
 
     const dbConnectionURL = DATABASE.replace('<PASSWORD>', DATABASE_PASSWORD)
 
-    mongoose.connect(dbConnectionURL)
+    void mongoose.connect(dbConnectionURL)
 
     mongoose.connection
         .on('open', () => logger.info('Connected to MongoDB.'))

@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 import 'reflect-metadata'
 import { AppRouter } from '../singletons/AppRouter'
 import { type Methods } from './Methods'
