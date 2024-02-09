@@ -1,7 +1,7 @@
 {
     "openapi": "3.0.0",
     "info": {
-      "title": "REST API Docs",
+      "title": "Todo Application API Docs",
       "version": "1.0.0"
     },
     "paths": {
@@ -226,6 +226,191 @@
             }
           }
         }
+      },
+      "/api/v1/users/{id}": {
+        "get": {
+          "summary": "Get a User by ID",
+          "tags": ["Users"],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "User found",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "User not found"
+            }
+          }
+        },
+        "patch": {
+          "summary": "Update a User by ID",
+          "tags": ["Users"],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "User updated successfully",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "User not found"
+            }
+          }
+        },
+        "delete": {
+          "summary": "Delete a User by ID",
+          "tags": ["Users"],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "204": {
+              "description": "User deleted successfully"
+            },
+            "404": {
+              "description": "User not found"
+            }
+          }
+        }
+      },
+      "/api/v1/signup": {
+        "post": {
+          "summary": "User Signup",
+          "tags": ["Authentication"],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["name", "email", "password", "passwordConfirm"],
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string",
+                      "format": "email"
+                    },
+                    "password": {
+                      "type": "string",
+                      "format": "password"
+                    },
+                    "passwordConfirm": {
+                      "type": "string",
+                      "format": "password"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "User created",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/v1/login": {
+        "post": {
+          "summary": "User Login",
+          "tags": ["Authentication"],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["email", "password"],
+                  "properties": {
+                    "email": {
+                      "type": "string",
+                      "format": "email"
+                    },
+                    "password": {
+                      "type": "string",
+                      "format": "password"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Login successful",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "token": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Authentication failed"
+            }
+          }
+        }
       }
     },
     "components": {
@@ -238,21 +423,42 @@
           ],
           "properties": {
             "title": {
-              "type": "string"
+              "type": "string",
+              "example": "Coding"
             },
             "completed": {
-              "type": "boolean"
+              "type": "boolean",
+              "example": true
             }
           }
         },
         "User": {
           "type": "object",
+          "required": ["name", "email", "password", "passwordConfirm"],
           "properties": {
             "name": {
-              "type": "string"
+              "type": "string",
+              "example": "John Doe"
             },
             "email": {
-              "type": "string"
+              "type": "string",
+              "format": "email",
+              "example": "john.doe@example.com"
+            },
+            "role": {
+              "type": "string",
+              "enum": ["user", "admin"],
+              "example": "user"
+            },
+            "password": {
+              "type": "string",
+              "format": "password",
+              "example": "secret"
+            },
+            "passwordConfirm": {
+              "type": "string",
+              "format": "password",
+              "example": "secret"
             }
           }
         }
