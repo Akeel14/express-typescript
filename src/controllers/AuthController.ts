@@ -9,8 +9,6 @@ class AuthController {
   @post('/signup')
   async signup(req: Request, res: Response): Promise<void> {
     try {
-      console.log('Request Body:', req.body)
-
       const newUser: IUser = await User.create({
         name: req.body.name,
         email: req.body.email,
@@ -38,8 +36,6 @@ class AuthController {
 
   @post('/login')
   login(req: Request, res: Response, next: NextFunction): void {
-    console.log('Request Body:', req.body)
-
     passport.authenticate(
       'local',
       (err: Error, user: IUser, info: { message?: string }) => {

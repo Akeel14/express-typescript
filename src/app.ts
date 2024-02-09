@@ -1,9 +1,8 @@
-import express from 'express'
 import passport from 'passport'
 import session from 'express-session'
 import MongoStore from 'connect-mongo'
-import { urlencoded } from 'body-parser'
 import cors, { CorsOptions } from 'cors'
+import express, { json, urlencoded } from 'express'
 
 import './controllers'
 import './config/strategies'
@@ -11,9 +10,10 @@ import AppError from './utils/AppError'
 import { ErrorController } from './controllers'
 import { dbConnectionURL } from './config/mongo'
 import { AppRouter } from './singletons/AppRouter'
+import swaggerDocs from './utils/swagger/swagger'
 
 const app = express()
-app.use(express.json())
+app.use(json())
 app.use(urlencoded({ extended: true }))
 app.use(passport.initialize())
 app.use(
@@ -53,6 +53,8 @@ const corsOptions: CorsOptions = {
 app.use(cors(corsOptions))
 
 app.use(AppRouter.getInstance())
+swaggerDocs(app, process.env.PORT ?? 8000)
+
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404))
 })
