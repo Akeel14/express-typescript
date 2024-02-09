@@ -9,8 +9,9 @@ import './config/strategies'
 import AppError from './utils/AppError'
 import { ErrorController } from './controllers'
 import { dbConnectionURL } from './config/mongo'
-import { AppRouter } from './singletons/AppRouter'
 import swaggerDocs from './utils/swagger/swagger'
+import { AppRouter } from './singletons/AppRouter'
+import authRoutes from './config/strategies/authRoutes'
 
 const app = express()
 app.use(json())
@@ -34,6 +35,9 @@ app.use(
   }),
 )
 app.use(passport.session())
+
+// Use the auth routes
+app.use('/api/v1', authRoutes)
 
 const whitelist: string[] = ['http://127.0.0.1:5500', 'http://localhost:8000']
 

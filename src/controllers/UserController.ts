@@ -1,16 +1,16 @@
 import { Request, Response, NextFunction } from 'express'
 
 import User from '../models/userModel'
+import { restrictTo } from '../middleware/restrictedTo'
 import { isAuthenticated } from '../middleware/isAuthenticated'
 import { get, patch, del, controller, use } from '../decorators'
 import { getAll, getOne, updateOne, deleteOne } from './handlerFactory'
-import { restrictTo } from '../middleware/restrictedTo'
 
 @controller('/api/v1/users')
 class UserController {
   @get('/')
   @use(isAuthenticated)
-  @use(restrictTo('admin'))
+  @use(restrictTo('user'))
   async getUsers(
     req: Request,
     res: Response,

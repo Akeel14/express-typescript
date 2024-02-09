@@ -2,7 +2,7 @@ import { Strategy as LocalStrategy } from 'passport-local'
 
 import User from '../../models/userModel'
 
-export default new LocalStrategy(
+const localStrategy = new LocalStrategy(
   {
     usernameField: 'email',
     passwordField: 'password',
@@ -28,3 +28,5 @@ export default new LocalStrategy(
     }
   },
 )
+
+export default localStrategy

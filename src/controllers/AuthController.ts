@@ -9,7 +9,7 @@ class AuthController {
   @post('/signup')
   async signup(req: Request, res: Response): Promise<void> {
     try {
-      const newUser: IUser = await User.create({
+      const newUser = await User.create({
         name: req.body.name,
         email: req.body.email,
         password: req.body.password,

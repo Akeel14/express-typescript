@@ -21,13 +21,10 @@ const userSchema = new Schema({
   },
   password: {
     type: String,
-    required: [true, 'Please provide a password'],
-    minlength: 8,
     select: false,
   },
   passwordConfirm: {
     type: String,
-    required: [true, 'Please confirm your password'],
     validate: {
       validator: function (this: IUser, inputValue: string) {
         return inputValue === this.password
@@ -45,7 +42,7 @@ userSchema.methods.correctPassword = async function (
 }
 
 userSchema.pre('save', async function (next) {
-  if (!this.isModified('password')) return next()
+  if (!this.isModified('password') || !this.password) return next()
 
   this.password = await bcrypt.hash(this.password, 12)
   // @ts-ignore
