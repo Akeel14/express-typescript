@@ -4,11 +4,13 @@ import User from '../models/userModel'
 import { isAuthenticated } from '../middleware/isAuthenticated'
 import { get, patch, del, controller, use } from '../decorators'
 import { getAll, getOne, updateOne, deleteOne } from './handlerFactory'
+import { restrictTo } from '../middleware/restrictedTo'
 
 @controller('/api/v1/users')
 class UserController {
   @get('/')
   @use(isAuthenticated)
+  @use(restrictTo('admin'))
   async getUsers(
     req: Request,
     res: Response,
