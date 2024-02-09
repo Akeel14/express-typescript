@@ -2,6 +2,7 @@
 
 import AppError from '../utils/AppError'
 import { Request, Response, NextFunction } from 'express'
+import logger from '../utils/logger'
 
 export class ErrorController {
   static handleCastErrorDB(err: any): AppError {
@@ -48,7 +49,14 @@ export class ErrorController {
       })
     } else {
       // Log the error for internal tracking
-      console.error('ERROR 💥', err)
+      logger.error(
+        JSON.stringify({
+          level: 'error',
+          message: 'Something went very wrong!',
+          error: err,
+          timestamp: new Date().toISOString(),
+        }),
+      )
 
       // Send a generic message to the client
       res.status(500).json({

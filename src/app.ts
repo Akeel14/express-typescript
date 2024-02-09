@@ -1,52 +1,62 @@
 import express from 'express'
+import passport from 'passport'
+import session from 'express-session'
+import MongoStore from 'connect-mongo'
+import { urlencoded } from 'body-parser'
 import cors, { CorsOptions } from 'cors'
+
 import './controllers'
-import { AppRouter } from './singletons/AppRouter'
-import { ErrorController } from './controllers/ErrorController'
+import './config/strategies'
 import AppError from './utils/AppError'
+import { ErrorController } from './controllers'
+import { dbConnectionURL } from './config/mongo'
+import { AppRouter } from './singletons/AppRouter'
 
 const app = express()
-app.use(AppRouter.getInstance())
+app.use(express.json())
+app.use(urlencoded({ extended: true }))
+app.use(passport.initialize())
+app.use(
+  session({
+    //@ts-ignore
+    secret: process.env.SESSION_SECRET, // Access the secret from environment variables
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+      maxAge: 3600000 * 24, // 1 hour * 24 = 24 hours
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+    },
+    store: MongoStore.create({
+      mongoUrl: dbConnectionURL(),
+      collectionName: 'sessions',
+    }),
+  }),
+)
+app.use(passport.session()) // persistent login sessions
 
-// Whitelist of allowed origins
-const whitelist: string[] = [
-  'http://example.com',
-  'http://localhost:3000',
-  'https://yourdomain.com',
-]
+const whitelist: string[] = ['http://127.0.0.1:5500', 'http://localhost:3000']
 
-// CORS options with type checking
 const corsOptions: CorsOptions = {
   origin: (
     origin: string | undefined,
     callback: (err: Error | null, allow?: boolean) => void,
   ) => {
     if (!origin || whitelist.indexOf(origin) !== -1) {
-      callback(null, true) // Allowed origin
+      callback(null, true)
     } else {
-      callback(new Error('Not allowed by CORS')) // Not allowed origin
+      callback(new Error('Not allowed by CORS'))
     }
   },
-  methods: ['GET', 'POST', 'PATCH', 'DELETE', 'PUT', 'OPTIONS'], // Allowed methods
-  allowedHeaders: [
-    'Content-Type',
-    'Authorization',
-    'Origin',
-    'x-access-token',
-    'XSRF-TOKEN',
-  ], // Allowed headers
   credentials: true, // This allows session cookies from the browser to pass through
-  optionsSuccessStatus: 200, // Some legacy browsers (IE11, various SmartTVs) choke on 204
 }
-
-// Use CORS with the above options
 app.use(cors(corsOptions))
 
+app.use(AppRouter.getInstance())
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404))
 })
 
-// Error handling middleware
 app.use(ErrorController.errorHandler)
 
 export default app

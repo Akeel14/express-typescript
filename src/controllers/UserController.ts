@@ -1,26 +1,29 @@
 import { Request, Response } from 'express'
 
-import Todo from '../models/todoModel'
-import { get, post, patch, del, controller } from '../decorators'
+import { get, post, patch, del, controller, use } from '../decorators'
 import APIFeatures, { type QueryString } from '../utils/ApiFeatures'
-@controller('/api/v1/todos')
-class TodoController {
+import User from '../models/userModel'
+import { isAuthenticated } from '../middleware/isAuthenticated'
+
+@controller('/api/v1/users')
+class UserController {
   @get('/')
-  async getTodos(req: Request, res: Response): Promise<void> {
+  @use(isAuthenticated)
+  async getUsers(req: Request, res: Response): Promise<void> {
     try {
-      const features = new APIFeatures(Todo.find(), req.query as QueryString)
+      const features = new APIFeatures(User.find(), req.query as QueryString)
         .filter()
         .sort()
         .limitFields()
         .paginate()
 
-      const todos = await features.query
+      const users = await features.query
 
       res.status(200).json({
         status: 'success',
-        results: todos.length,
+        results: users.length,
         data: {
-          todos,
+          users,
         },
       })
     } catch (err) {
@@ -32,14 +35,14 @@ class TodoController {
   }
 
   @post('/')
-  async addTodo(req: Request, res: Response): Promise<void> {
+  async addUser(req: Request, res: Response): Promise<void> {
     try {
-      const newTodo = await Todo.create(req.body)
+      const newUser = await User.create(req.body)
 
       res.status(200).json({
         status: 'success',
         data: {
-          todo: newTodo,
+          todo: newUser,
         },
       })
     } catch (err) {
@@ -51,14 +54,14 @@ class TodoController {
   }
 
   @get('/:id')
-  async getTodo(req: Request, res: Response): Promise<void> {
+  async getUser(req: Request, res: Response): Promise<void> {
     try {
-      const todo = await Todo.findById(req.params.id)
+      const user = await User.findById(req.params.id)
 
       res.status(200).json({
         status: 'success',
         data: {
-          todo,
+          user,
         },
       })
     } catch (err) {
@@ -70,11 +73,11 @@ class TodoController {
   }
 
   @patch('/:id')
-  async updateTodo(req: Request, res: Response): Promise<void> {
+  async updateUser(req: Request, res: Response): Promise<void> {
     try {
       const updateData = req.body
 
-      const todo = await Todo.findByIdAndUpdate(req.params.id, updateData, {
+      const user = await User.findByIdAndUpdate(req.params.id, updateData, {
         new: true,
         runValidators: true,
       })
@@ -82,7 +85,7 @@ class TodoController {
       res.status(200).json({
         status: 'success',
         data: {
-          todo,
+          user,
         },
       })
     } catch (err) {
@@ -94,9 +97,9 @@ class TodoController {
   }
 
   @del('/:id')
-  async deleteTodo(req: Request, res: Response): Promise<void> {
+  async deleteUser(req: Request, res: Response): Promise<void> {
     try {
-      await Todo.findByIdAndDelete(req.params.id)
+      await User.findByIdAndDelete(req.params.id)
 
       res.status(204).json({
         status: 'success',
