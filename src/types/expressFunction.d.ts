@@ -4,5 +4,4 @@ export type ExpressFunction = (
   req: Request,
   res: Response,
   next: NextFunction,
-  val?: string,
 ) => void | Response | Promise<Response | void>

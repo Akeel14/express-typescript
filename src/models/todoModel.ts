@@ -11,6 +11,10 @@ const todoSchema = new Schema({
   completed: {
     type: Boolean,
   },
+  created_at: {
+    type: Date,
+    default: Date.now,
+  },
 })
 
 type Todo = InferSchemaType<typeof todoSchema>
