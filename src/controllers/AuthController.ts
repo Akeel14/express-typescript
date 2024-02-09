@@ -1,7 +1,8 @@
-import { NextFunction, Request, Response } from 'express'
-import { post, controller } from '../decorators'
 import passport from 'passport'
+import { NextFunction, Request, Response } from 'express'
+
 import User from '../models/userModel'
+import { post, controller } from '../decorators'
 
 @controller('/api/v1')
 class AuthController {

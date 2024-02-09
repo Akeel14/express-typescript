@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 import 'reflect-metadata'
-import { AppRouter } from '../singletons/AppRouter'
 import { type Methods } from './Methods'
 import { MetadataKeys } from './MetadataKeys'
+import { AppRouter } from '../singletons/AppRouter'
 
 // Defines a decorator factory for creating a class decorator that marks a class as a controller.
 // The decorator factory takes a routePrefix argument, specifying the base URL segment for all routes within the controller.

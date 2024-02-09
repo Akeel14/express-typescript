@@ -19,9 +19,9 @@ app.use(passport.initialize())
 app.use(
   session({
     //@ts-ignore
-    secret: process.env.SESSION_SECRET, // Access the secret from environment variables
+    secret: process.env.SESSION_SECRET,
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
     cookie: {
       maxAge: 3600000 * 24, // 1 hour * 24 = 24 hours
       httpOnly: true,
@@ -33,7 +33,7 @@ app.use(
     }),
   }),
 )
-app.use(passport.session()) // persistent login sessions
+app.use(passport.session())
 
 const whitelist: string[] = ['http://127.0.0.1:5500', 'http://localhost:3000']
 
@@ -48,7 +48,7 @@ const corsOptions: CorsOptions = {
       callback(new Error('Not allowed by CORS'))
     }
   },
-  credentials: true, // This allows session cookies from the browser to pass through
+  credentials: true,
 }
 app.use(cors(corsOptions))
 

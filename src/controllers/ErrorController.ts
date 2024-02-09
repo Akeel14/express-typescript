@@ -1,8 +1,8 @@
 // src/controllers/ErrorController.ts
-
-import AppError from '../utils/AppError'
 import { Request, Response, NextFunction } from 'express'
+
 import logger from '../utils/logger'
+import AppError from '../utils/AppError'
 
 export class ErrorController {
   static handleCastErrorDB(err: any): AppError {

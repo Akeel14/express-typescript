@@ -1,11 +1,12 @@
 import dotenv from 'dotenv'
 dotenv.config()
 
-import { connectDatabase } from './config/mongo'
 import app from './app'
+import mongoose from 'mongoose'
 import logger from './utils/logger'
 import swaggerDocs from './utils/swagger/swagger'
-import mongoose from 'mongoose'
+import { connectDatabase } from './config/mongo'
+
 connectDatabase()
 
 const PORT: string | number = process.env.PORT ?? 8000

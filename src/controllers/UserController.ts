@@ -1,9 +1,9 @@
 import { Request, Response } from 'express'
 
-import { get, post, patch, del, controller, use } from '../decorators'
-import APIFeatures, { type QueryString } from '../utils/ApiFeatures'
 import User from '../models/userModel'
 import { isAuthenticated } from '../middleware/isAuthenticated'
+import APIFeatures, { type QueryString } from '../utils/ApiFeatures'
+import { get, post, patch, del, controller, use } from '../decorators'
 
 @controller('/api/v1/users')
 class UserController {

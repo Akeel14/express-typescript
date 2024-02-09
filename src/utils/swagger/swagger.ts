@@ -1,7 +1,7 @@
-import { type Express, type Request, type Response } from 'express'
 import swaggerUi from 'swagger-ui-express'
-import log from '../logger'
+import { type Express, type Request, type Response } from 'express'
 
+import log from '../logger'
 import * as swaggerDocument from './api-docs.json'
 
 function swaggerDocs(app: Express, port: string | number): void {
