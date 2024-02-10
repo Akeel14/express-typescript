@@ -12,7 +12,7 @@ const googleStrategy = new GoogleStrategy(
   {
     clientID: GOOGLE_CLIENT_ID,
     clientSecret: GOOGLE_CLIENT_SECRET,
-    callbackURL: `${process.env.API_URL}/api/v1/auth/google/callback`,
+    callbackURL: '/api/v1/auth/google/callback',
   },
   async (accessToken, refreshToken, profile, done) => {
     try {
