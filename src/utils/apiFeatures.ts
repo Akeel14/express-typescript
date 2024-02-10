@@ -6,7 +6,7 @@ export interface QueryString {
   fields?: string
 }
 
-class APIFeatures {
+export class APIFeatures {
   query: any
   queryString: QueryString
 
@@ -76,5 +76,3 @@ class APIFeatures {
     return this
   }
 }
-
-export default APIFeatures

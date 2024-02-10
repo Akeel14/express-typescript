@@ -39,7 +39,10 @@ app.use(passport.session())
 // Use the auth routes
 app.use('/api/v1', authRoutes)
 
-const whitelist: string[] = ['http://127.0.0.1:5500', 'http://localhost:8000']
+const whitelist: string[] = [
+  'http://localhost:8000',
+  'https://todoapplicationtypescript.netlify.app',
+]
 
 const corsOptions: CorsOptions = {
   origin: (
