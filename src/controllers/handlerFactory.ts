@@ -3,7 +3,7 @@ import { Request, Response, NextFunction } from 'express'
 
 import AppError from '../utils/AppError'
 import { catchAsync } from '../utils/catchAsync'
-import { APIFeatures, QueryString } from './APIFeatures'
+import { APIFeatures, QueryString } from '../utils/APIFeatures'
 
 export const getAll = (Model: mongoose.Model<any>) =>
   catchAsync(async (req: Request, res: Response) => {
