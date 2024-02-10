@@ -41,7 +41,7 @@ app.use('/api/v1', authRoutes)
 
 const whitelist: string[] = [
   'http://localhost:8000',
-  'http://localhost:5174',
+  'http://localhost:5173',
   'https://todoapplicationtypescript.netlify.app',
 ]
 
