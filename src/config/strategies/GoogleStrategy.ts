@@ -3,17 +3,16 @@ import User from '../../models/userModel'
 
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET
-const API_URL = process.env.API_URL
 
-if (!GOOGLE_CLIENT_ID || !GOOGLE_CLIENT_SECRET || !API_URL) {
-  throw new Error('ENV Variables or secret is not set.')
+if (!GOOGLE_CLIENT_ID || !GOOGLE_CLIENT_SECRET) {
+  throw new Error('Google client ID or secret is not set.')
 }
 
 const googleStrategy = new GoogleStrategy(
   {
     clientID: GOOGLE_CLIENT_ID,
     clientSecret: GOOGLE_CLIENT_SECRET,
-    callbackURL: `${API_URL}/api/v1/auth/google/callback`,
+    callbackURL: '/api/v1/auth/google/callback',
   },
   async (accessToken, refreshToken, profile, done) => {
     try {
