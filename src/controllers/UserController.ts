@@ -10,7 +10,6 @@ import { getAll, getOne, updateOne, deleteOne } from './handlerFactory'
 class UserController {
   @get('/')
   @use(isAuthenticated)
-  @use(restrictTo('user'))
   async getUsers(
     req: Request,
     res: Response,
@@ -21,6 +20,7 @@ class UserController {
   }
 
   @get('/:id')
+  @use(isAuthenticated)
   async getUser(
     req: Request,
     res: Response,
@@ -31,6 +31,7 @@ class UserController {
   }
 
   @patch('/:id')
+  @use(isAuthenticated)
   async updateUser(
     req: Request,
     res: Response,
@@ -41,6 +42,8 @@ class UserController {
   }
 
   @del('/:id')
+  @use(isAuthenticated)
+  @use(restrictTo('admin'))
   async deleteUser(
     req: Request,
     res: Response,

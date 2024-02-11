@@ -1,7 +1,5 @@
 import { Request, Response, NextFunction } from 'express'
 
-import Todo from '../models/todoModel'
-import { get, post, patch, del, controller } from '../decorators'
 import {
   getAll,
   getOne,
@@ -9,9 +7,13 @@ import {
   updateOne,
   deleteOne,
 } from './handlerFactory'
+import Todo from '../models/todoModel'
+import { get, post, patch, del, controller, use } from '../decorators'
+import { isAuthenticated } from '../middleware/isAuthenticated'
 @controller('/api/v1/todos')
 class TodoController {
   @get('/')
+  @use(isAuthenticated)
   async getTodos(
     req: Request,
     res: Response,
@@ -22,6 +24,7 @@ class TodoController {
   }
 
   @post('/')
+  @use(isAuthenticated)
   async addTodo(
     req: Request,
     res: Response,
@@ -32,6 +35,7 @@ class TodoController {
   }
 
   @get('/:id')
+  @use(isAuthenticated)
   async getTodo(
     req: Request,
     res: Response,
@@ -42,6 +46,7 @@ class TodoController {
   }
 
   @patch('/:id')
+  @use(isAuthenticated)
   async updateTodo(
     req: Request,
     res: Response,
@@ -52,6 +57,7 @@ class TodoController {
   }
 
   @del('/:id')
+  @use(isAuthenticated)
   async deleteTodo(
     req: Request,
     res: Response,

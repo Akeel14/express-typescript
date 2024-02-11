@@ -40,7 +40,10 @@ class AuthController {
       'local',
       (err: Error, user: IUser, info: { message?: string }) => {
         if (err) return next(err)
-        if (!user) return res.status(400).json({ message: info.message })
+        if (!user) {
+          console.log('Authentication failed:', info)
+          return res.status(400).json({ message: info.message })
+        }
 
         req.login(user, (err) => {
           if (err) return next(err)
@@ -54,5 +57,14 @@ class AuthController {
         })
       },
     )(req, res, next)
+  }
+  @post('/logout')
+  logout(req: Request, res: Response, next: NextFunction): void {
+    req.session.destroy(function () {
+      res.clearCookie('connect.sid')
+      res
+        .status(200)
+        .json({ message: 'Successfully logged out and session destroyed' })
+    })
   }
 }

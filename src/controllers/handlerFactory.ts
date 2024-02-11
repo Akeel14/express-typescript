@@ -17,9 +17,7 @@ export const getAll = (Model: mongoose.Model<any>) =>
     res.status(200).json({
       status: 'success',
       results: doc.length,
-      data: {
-        data: doc,
-      },
+      data: doc,
     })
   })
 
@@ -29,9 +27,7 @@ export const createOne = (Model: mongoose.Model<any>) =>
 
     res.status(201).json({
       status: 'success',
-      data: {
-        data: doc,
-      },
+      data: doc,
     })
   })
 
@@ -44,9 +40,7 @@ export const getOne = (Model: mongoose.Model<any>) =>
 
     res.status(200).json({
       status: 'success',
-      data: {
-        data: doc,
-      },
+      data: doc,
     })
   })
 
@@ -63,9 +57,7 @@ export const updateOne = (Model: mongoose.Model<any>) =>
 
     res.status(200).json({
       status: 'success',
-      data: {
-        data: doc,
-      },
+      data: doc,
     })
   })
 
