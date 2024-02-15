@@ -8,8 +8,14 @@ import {
   deleteOne,
 } from './handlerFactory'
 import Todo from '../models/todoModel'
-import { get, post, patch, del, controller, use } from '../decorators'
+import { validateRequest } from '../middleware/validateRequest'
 import { isAuthenticated } from '../middleware/isAuthenticated'
+import { get, post, patch, del, controller, use } from '../decorators'
+import {
+  createTodoSchema,
+  updateTodoSchema,
+  idSchema,
+} from '../models/validation/todoValidationSchemas'
 @controller('/api/v1/todos')
 class TodoController {
   @get('/')
@@ -25,6 +31,7 @@ class TodoController {
 
   @post('/')
   @use(isAuthenticated)
+  @use(validateRequest({ body: createTodoSchema }))
   async addTodo(
     req: Request,
     res: Response,
@@ -36,6 +43,7 @@ class TodoController {
 
   @get('/:id')
   @use(isAuthenticated)
+  @use(validateRequest({ params: idSchema }))
   async getTodo(
     req: Request,
     res: Response,
@@ -47,6 +55,7 @@ class TodoController {
 
   @patch('/:id')
   @use(isAuthenticated)
+  @use(validateRequest({ body: updateTodoSchema, params: idSchema }))
   async updateTodo(
     req: Request,
     res: Response,
@@ -58,6 +67,7 @@ class TodoController {
 
   @del('/:id')
   @use(isAuthenticated)
+  @use(validateRequest({ params: idSchema }))
   async deleteTodo(
     req: Request,
     res: Response,

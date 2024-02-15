@@ -2,11 +2,17 @@ import passport from 'passport'
 import { NextFunction, Request, Response } from 'express'
 
 import User from '../models/userModel'
-import { post, controller } from '../decorators'
+import { post, controller, use } from '../decorators'
+import { validateRequest } from '../middleware/validateRequest'
+import {
+  registerSchema,
+  loginSchema,
+} from '../models/validation/authValidationSchemas'
 
 @controller('/api/v1')
 class AuthController {
   @post('/signup')
+  @use(validateRequest({ body: registerSchema }))
   async signup(req: Request, res: Response): Promise<void> {
     try {
       const newUser = await User.create({
@@ -35,6 +41,7 @@ class AuthController {
   }
 
   @post('/login')
+  @use(validateRequest({ body: loginSchema }))
   login(req: Request, res: Response, next: NextFunction): void {
     passport.authenticate(
       'local',
